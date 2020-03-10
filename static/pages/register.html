@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <body>
+        账号：<input id="username" type="text" /> 密码：<input
+            id="password"
+            type="text"
+        />
+        <br /><br />
+        <button id="register">注册</button>
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            let username = document.querySelector("#username");
+            let password = document.querySelector("#password");
+            let register = document.querySelector("#register");
+
+            register.onclick = () => {
+                axios
+                    .post("/user/register", {
+                        username: username.value,
+                        password: password.value
+                    })
+                    .then(res => {
+                        // console.log(res);
+                        window.location.href = "./login.html";
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            };
+        </script>
+    </body>
+</html>

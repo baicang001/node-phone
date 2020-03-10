@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <body>
+        <button id="ip">get ip</button>
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            let ip = document.querySelector("#ip");
+
+            ip.onclick = () => {
+                axios
+                    .post("/ip/queryall", {
+                        token: localStorage.getItem("token")
+                    })
+                    .then(res => {
+                        console.log(res);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            };
+        </script>
+    </body>
+</html>
