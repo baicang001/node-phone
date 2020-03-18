@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="info"></div>
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            let info = document.querySelector("#info");
+            axios.defaults.headers.common["token"] = localStorage.getItem(
+                "token"
+            );
+            axios
+                .post("/employee/personalInfo", {
+                    // token: localStorage.getItem("token"),
+                    username: localStorage.getItem("username")
+                })
+                .then(res => {
+                    let { result } = res.data;
+                    info.innerHTML = `用户名：${result[0].username}，用户权限：${result[0].grade}`;
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        </script>
+    </body>
+</html>

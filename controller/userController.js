@@ -1,9 +1,10 @@
 const userModel = require("./../model/userModel");
 const jwt = require("./../util/jwt");
 const crypto = require("./../util/cryptoJS");
+const acl = require("./../util/acl");
 
 module.exports = {
-    // 登录，根据用户名查询用户信息
+    // 登录，根据用户名查询用户信息，并赋予用户角色（权限）
     login(req, res) {
         let username = req.body.username; // 用户姓名
         let password = crypto(req.body.password); // 用户密码(并加密)
@@ -30,7 +31,22 @@ module.exports = {
                     });
                 } else {
                     let token = jwt.generateToken(username);
-                    res.send({
+                    let role = "";
+                    switch (result[0].grade) {
+                        case 0:
+                            role = "normal";
+                            break;
+                        case 1:
+                            role = "admin";
+                            break;
+                        case 2:
+                            role = "director";
+                            break;
+                        default:
+                            break;
+                    }
+                    acl.addUserRoles(username, role); // 给用户添加对应的角色
+                    res.json({
                         code: 200,
                         msg: "用户登录成功",
                         status: "ok",

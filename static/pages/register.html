@@ -11,14 +11,21 @@
             id="password"
             type="text"
         />
-        <br /><br />
+        e-mail: <input id="email" type="text" /> 验证码:
+        <input id="authCode" type="text" /> <br /><br />
         <button id="register">注册</button>
+        <button id="getCode">获取验证码</button>
+        <button id="verifyCode">校验验证码</button>
 
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script>
             let username = document.querySelector("#username");
             let password = document.querySelector("#password");
             let register = document.querySelector("#register");
+            let email = document.querySelector("#email");
+            let getCode = document.querySelector("#getCode");
+            let verifyCode = document.querySelector("#verifyCode");
+            let authCode = document.querySelector("#authCode");
 
             register.onclick = () => {
                 axios
@@ -29,6 +36,31 @@
                     .then(res => {
                         // console.log(res);
                         window.location.href = "./login.html";
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            };
+            getCode.onclick = () => {
+                axios
+                    .post("/email/getAuthCode", {
+                        eMail: email.value
+                    })
+                    .then(res => {
+                        console.log(res);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            };
+            verifyCode.onclick = () => {
+                axios
+                    .post("/email/verifyAuthCode", {
+                        eMail: email.value,
+                        authCode: +authCode.value
+                    })
+                    .then(res => {
+                        console.log(res);
                     })
                     .catch(err => {
                         console.log(err);

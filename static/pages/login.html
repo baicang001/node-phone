@@ -36,7 +36,8 @@
                             alert("密码错误");
                         } else {
                             localStorage.setItem("token", res.data.token);
-                            // window.location.href = "./employee.html";
+                            localStorage.setItem("username", username.value);
+                            window.location.href = "./home.html";
                         }
                     })
                     .catch(err => {
