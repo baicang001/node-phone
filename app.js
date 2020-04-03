@@ -16,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 /* 校验token(加载静态资源不需要验证token) */
 app.use((req, res, next) => {
     if (
+        req.url.endsWith(".html") || // 不去校验已.html结尾的请求
         req.url === "/user/login" ||
         req.url === "/user/register" ||
         req.url === "/email/getAuthCode" ||
@@ -32,7 +33,7 @@ app.use((req, res, next) => {
                 if (err) {
                     // token失效 或 伪造的token
                     res.json({
-                        code: 403,
+                        code: 401,
                         msg: "登录已过期，请重新登录",
                         status: "expired"
                     });
@@ -43,7 +44,7 @@ app.use((req, res, next) => {
             });
         } else {
             // token不存在
-            res.json({ code: 403, msg: "你还没有登录", status: "logout" });
+            res.json({ code: 401, msg: "你还没有登录", status: "logout" });
         }
     }
 });
@@ -52,6 +53,7 @@ app.use((req, res, next) => {
 app.use((username, req, res, next) => {
     // 登录/注册状态无需校验
     if (
+        req.url.endsWith(".html") ||
         req.url === "/user/login" ||
         req.url === "/user/register" ||
         req.url === "/email/getAuthCode" ||
@@ -68,10 +70,11 @@ app.use((username, req, res, next) => {
                 next();
             } else {
                 res.json({
-                    code: 400,
+                    code: 401,
                     msg: "你没有该权限",
                     status: "notAllowed",
-                    err: err
+                    err: err,
+                    allowed: allowed
                 });
             }
         });
@@ -96,6 +99,6 @@ app.use((err, req, res, next) => {
 });
 
 /* 监听端口，启动node服务器 127.0.0.1  192.168.0.101 */
-app.listen(9999, "192.168.0.101", () => {
+app.listen(9999, "127.0.0.1", () => {
     console.log("node服务器启动成功");
 });
