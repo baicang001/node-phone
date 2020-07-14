@@ -25,7 +25,7 @@ module.exports = [
         roles: "admin", // 超级管理员
         allows: [
             {
-                resources: ["/ip/queryall"],
+                resources: ["/ip/queryall", "/api/secretkey/add"],
                 permissions: "*"
             }
         ]

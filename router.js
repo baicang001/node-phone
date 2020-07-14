@@ -3,6 +3,7 @@ const userController = require("./controller/userController");
 const ipController = require("./controller/ipController");
 const employeeController = require("./controller/employeeController");
 const eMailController = require("./controller/eMailController");
+const tokenSecretController = require("./controller/tokenSecretController");
 
 /**
  * 用户路由
@@ -41,6 +42,13 @@ router.post("/email/getAuthCode", (req, res) => {
 // 校验验证码
 router.post("/email/verifyAuthCode", (req, res) => {
     eMailController.verifyAuthCode(req, res);
+});
+
+/**
+ * 更换token秘钥
+ */
+router.post("/api/secretkey/add", (req, res) => {
+    tokenSecretController.addTokenSecret(req, res);
 });
 
 module.exports = router;
