@@ -6,7 +6,7 @@
   "dependencies": {
     "acl": "^0.4.11",
     "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mysql": "^2.18.1",
     "nodemailer": "^6.4.5",
     "nodemailer-smtp-transport": "^2.7.4"
